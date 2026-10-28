@@ -9,3 +9,4 @@ ssh-credentials
 plain-credentials
 matrix-auth
 pipeline-stage-view
+timestamper

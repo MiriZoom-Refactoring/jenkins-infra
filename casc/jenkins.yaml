@@ -2,7 +2,7 @@
 jenkins:
   systemMessage: "MiriZoom Jenkins - managed by JCasC"
 
-  numExecutors: 2
+  numExecutors: 1
   mode: NORMAL
 
   securityRealm:
@@ -39,6 +39,24 @@ credentials:
               id: "mirizoom-kakao-js-key"
               description: "Kakao JavaScript key for the frontend build"
               secret: "${MIRIZOOM_KAKAO_JS_KEY}"
+
+          - basicSSHUserPrivateKey:
+              scope: GLOBAL
+              id: "mirizoom-ec2-ssh"
+              username: "${MIRIZOOM_EC2_SSH_USER}"
+              privateKeySource:
+                directEntry:
+                  privateKey: "${readFile:/run/secrets/ec2_ssh_key}"
+
+          - string:
+              scope: GLOBAL
+              id: "mirizoom-web-host"
+              secret: "${MIRIZOOM_WEB_HOST}"
+
+          - string:
+              scope: GLOBAL
+              id: "mirizoom-app-host"
+              secret: "${MIRIZOOM_APP_HOST}"
 
 jobs:
   - file: /var/jenkins_home/jobdsl/pipelines.groovy

@@ -40,15 +40,24 @@ def pipelines = [
     ],
     [
         name: 'mirizoom-deploy',
-        description: 'MiriZoom EC2 deployment pipeline',
+        description: 'MiriZoom Ansible deployment pipeline',
         repositoryUrl: deployRepositoryUrl,
         scriptPath: 'Jenkinsfile'
+    ],
+    [
+        name: 'mirizoom-batch-scheduler',
+        description: 'Weekly law batch: enable after initial deployment',
+        repositoryUrl: deployRepositoryUrl,
+        scriptPath: 'Jenkinsfile.batch-scheduler'
     ]
 ]
 
 pipelines.each { pipeline ->
     pipelineJob(pipeline.name) {
         description(pipeline.description)
+        if (pipeline.name == 'mirizoom-batch-scheduler') {
+            disabled(System.getenv('ENABLE_BATCH_SCHEDULE') != 'true')
+        }
 
         logRotator {
             numToKeep(20)

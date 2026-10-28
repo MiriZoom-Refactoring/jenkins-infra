@@ -1,0 +1,6 @@
+.git
+.env
+*.pem
+*.key
+secrets
+known_hosts
